@@ -29,8 +29,8 @@ describe "Admin manages polling stations", type: :system, serves_geocoding_autoc
       include_context "with filterable context"
       # Need to override these 2 variables from 'with filterable context'
       # because it does not support nested modules (Votings::PollingStations in this case)
-      let(:model_name) { Decidim::Votings::PollingStation.model_name }
-      let(:module_name) { "Votings::PollingStations" }
+      let(:model_name) { polling_station.class.model_name }
+      let(:filterable_concern) { "Decidim::Votings::PollingStations::Admin::Filterable".constantize }
 
       it "lists all the polling stations for the voting" do
         within "#polling_stations table" do

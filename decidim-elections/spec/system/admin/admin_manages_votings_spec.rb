@@ -13,6 +13,7 @@ describe "Admin manages votings", type: :system do
 
   describe "listing votings" do
     let(:model_name) { voting.class.model_name }
+    let(:filterable_concern) { "Decidim::Votings::Admin::Filterable".constantize }
 
     it_behaves_like "filtering collection by published/unpublished"
   end
