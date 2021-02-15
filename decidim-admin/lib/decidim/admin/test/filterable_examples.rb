@@ -1,13 +1,13 @@
-# frozen_string_literal: true
+# rubocop:disable Style/FrozenStringLiteralComment
 
 shared_context "with filterable context" do
   let(:factory_name) { model_name.singular_route_key }
   let(:module_name) { model_name.route_key.camelize }
-  let(:filterable_concern) { "Decidim::#{module_name}::Admin::Filterable".constantize }
+  let(:filterable_concern) { "Decidim::#{module_name}::Admin::Filterable" }
 
   let(:filterable_fake_controller) do
-    FILTERABLE_CONCERN ||= filterable_concern
-    class FilterableFakeController < Decidim::ApplicationController; include FILTERABLE_CONCERN; end
+    FILTERABLE_CONCERN = filterable_concern
+    class FilterableFakeController < Decidim::ApplicationController; include FILTERABLE_CONCERN.constantize; end
   end
 
   def filterable_method(method_name)
@@ -127,3 +127,5 @@ shared_examples "filtering collection by private/public" do
 
   it_behaves_like "paginating a collection"
 end
+
+# rubocop:enable Style/FrozenStringLiteralComment

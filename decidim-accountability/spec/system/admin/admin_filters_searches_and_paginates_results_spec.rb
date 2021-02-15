@@ -10,7 +10,7 @@ describe "Admin filters, searches, and paginates results", type: :system do
 
   # Override :filterable_concern used by decidim-admin/lib/decidim/admin/test/filterable_examples.rb,
   # which would include a :route_key value of "results", rather than "accountability".
-  let(:filterable_concern) { "Decidim::Accountability::Admin::Filterable".constantize }
+  let(:filterable_concern) { "Decidim::Accountability::Admin::Filterable" }
 
   context "when filtering by scope" do
     let!(:scope1) do
