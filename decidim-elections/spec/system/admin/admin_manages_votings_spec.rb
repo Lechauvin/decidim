@@ -11,8 +11,8 @@ describe "Admin manages votings", type: :system do
     visit decidim_admin_votings.votings_path
   end
 
-  describe "listing votings" do
-    let(:model_name) { voting.class.model_name }
+  describe "when listing votings" do
+    let!(:model_name) { voting.class.model_name }
 
     it_behaves_like "filtering collection by published/unpublished"
   end

@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require "spec_helper"
+require "decidim/votings/test/capybara_polling_officers_picker"
 
 describe "Admin manages polling stations", type: :system, serves_geocoding_autocomplete: true do
   let(:address) { "Somewhere over the rainbow" }
@@ -27,7 +28,7 @@ describe "Admin manages polling stations", type: :system, serves_geocoding_autoc
 
     context "when listing the polling stations" do
       include_context "with filterable context"
-      let(:model_name) { polling_station.class.model_name }
+      let!(:model_name) { polling_station.class.model_name }
 
       it "lists all the polling stations for the voting" do
         within "#polling_stations table" do
@@ -101,6 +102,8 @@ describe "Admin manages polling stations", type: :system, serves_geocoding_autoc
 
         autocomplete_select "#{polling_officers.first.name} (@#{polling_officers.first.nickname})", from: :polling_station_president_id
 
+        polling_officers_pick(select_data_picker(:polling_station_polling_station_managers, multiple: true), polling_officers.last(2))
+
         find("*[type=submit]").click
       end
 
@@ -109,10 +112,13 @@ describe "Admin manages polling stations", type: :system, serves_geocoding_autoc
       within "#polling_stations table" do
         expect(page).to have_text("Polling station")
         expect(page).to have_text(polling_officers.first.name)
+        polling_officers.last(2).each do |polling_officer|
+          expect(page).to have_text(polling_officer.name)
+        end
       end
     end
 
-    it "can delete a polliong station from a voting" do
+    it "can delete a polling station from a voting" do
       within find("tr", text: translated(polling_station.title)) do
         accept_confirm { click_link "Delete" }
       end
@@ -141,6 +147,8 @@ describe "Admin manages polling stations", type: :system, serves_geocoding_autoc
 
         autocomplete_select "#{polling_officers.last.name} (@#{polling_officers.last.nickname})", from: :polling_station_president_id
 
+        polling_officers_pick(select_data_picker(:polling_station_polling_station_managers, multiple: true), polling_officers.first(2))
+
         find("*[type=submit]").click
       end
 
@@ -149,6 +157,9 @@ describe "Admin manages polling stations", type: :system, serves_geocoding_autoc
       within "#polling_stations table" do
         expect(page).to have_text("Another polling station")
         expect(page).to have_text(polling_officers.last.name)
+        polling_officers.first(2).each do |polling_officer|
+          expect(page).to have_text(polling_officer.name)
+        end
       end
     end
   end
