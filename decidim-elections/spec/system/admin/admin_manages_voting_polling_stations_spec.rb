@@ -27,8 +27,9 @@ describe "Admin manages polling stations", type: :system, serves_geocoding_autoc
     end
 
     context "when listing the polling stations" do
-      include_context "with filterable context"
       let!(:model_name) { polling_station.class.model_name }
+
+      include_context "with filterable context"
 
       it "lists all the polling stations for the voting" do
         within "#polling_stations table" do
