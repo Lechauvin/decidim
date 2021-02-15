@@ -11,7 +11,7 @@ shared_context "with filterable context" do
   end
 
   def filterable_method(method_name)
-    (@controller ||= filterable_fake_controller.new).send(method_name)
+    filterable_fake_controller.new.send(method_name)
   end
 
   def apply_filter(options, filter)
